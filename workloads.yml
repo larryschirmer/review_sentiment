@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: review-sentiment
+spec:
+  selector:
+    matchLabels:
+      app: review-sentiment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: review-sentiment
+    spec:
+      containers:
+        - name: review-sentiment
+          image: larryschirmer/review_sentiment:latest
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: review-sentiment
+spec:
+  type: LoadBalancer
+  selector:
+    app: review-sentiment
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 5000
