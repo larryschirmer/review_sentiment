@@ -1,9 +1,10 @@
 import re
+import io
 import numpy as np
 from nltk.util import ngrams
 
 def get_vocab(filename):
-    lines = [line.rstrip() for line in open(filename)]
+    lines = [line.rstrip() for line in io.open(filename, encoding='utf8')]
     vocab = dict()
 
     for line in lines:
