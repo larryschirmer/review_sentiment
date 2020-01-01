@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from gevent.pywsgi import WSGIServer
 
 project_filename = "_sentiment_doc_2_vec"
@@ -11,12 +11,15 @@ app.config.from_object(env)
 
 @app.route('/', methods=['GET'])
 def hello():
-    return "Hello World!"
+    return {
+        'data': 'hi, POST a review in a body with key \'review\''
+    }
 
 
-@app.route('/<name>', methods=['GET'])
-def hello_name(name):
-    return "Hello {}!".format(name)
+@app.route('/', methods=['POST'])
+def hello_name():
+    review = request.json['review']
+    return review
 
 
 if __name__ == '__main__':
